@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.example.spongebobcharacter.Adapter.CardviewCharactersAdapter;
 import com.android.example.spongebobcharacter.Adapter.GridCharactersAdapter;
 import com.android.example.spongebobcharacter.Adapter.RowCharactersAdapter;
 import com.android.example.spongebobcharacter.Model.Characters;
@@ -38,10 +39,29 @@ public class MainActivity extends AppCompatActivity {
         rvCategory = findViewById(R.id.rv_spongebob_characters);
         rvCategory.setHasFixedSize(true);
 
-        mData.addAll(CharactersData.getListData());
 
-        initRecyclerList();
+        if (savedInstanceState == null) {
+            setActionBarTitle("Mode List");
+            mData.addAll(CharactersData.getListData());
+            initRecyclerList();
+            mode = R.id.action_row;
+        } else {
+            String stateTitle = savedInstanceState.getString(STATE_TITLE);
+            ArrayList<Characters> stateList = savedInstanceState.getParcelableArrayList(STATE_LIST);
+            int stateMode = savedInstanceState.getInt(STATE_MODE);
+            setActionBarTitle(stateTitle);
+            mData.addAll(stateList);
+            setMode(stateMode);
+        }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_TITLE, (String) getSupportActionBar().getTitle());
+        outState.putParcelableArrayList(STATE_LIST, mData);
+        outState.putInt(STATE_MODE, mode);
     }
 
     private void initRecyclerList() {
@@ -72,6 +92,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initRecycleCardview() {
+        rvCategory.setLayoutManager(new LinearLayoutManager(this));
+        CardviewCharactersAdapter cardviewCharactersAdapter = new CardviewCharactersAdapter(this);
+        cardviewCharactersAdapter.setmData(mData);
+        rvCategory.setAdapter(cardviewCharactersAdapter);
+        ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                openDetailActivity(mData.get(position));
+            }
+        });
+    }
+
     private void openDetailActivity(Characters characters) {
         Class destinationClass = DetailActivity.class;
         Context context = MainActivity.this;
@@ -92,17 +125,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedMenu = item.getItemId();
+        setMode(selectedMenu);
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setMode(int selectedMenu) {
         switch (selectedMenu) {
             case R.id.action_row:
+                title = "Mode Row";
                 initRecyclerList();
-                return true;
+                break;
             case R.id.action_grid:
+                title = "Mode Grid";
                 initRecycleGrid();
-                return true;
+                break;
             case R.id.action_card_View:
-                Toast.makeText(this, "Mode cardview clicked", Toast.LENGTH_LONG).show();
-                return true;
+                title = "Mode Cardview";
+                initRecycleCardview();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        mode = selectedMenu;
+        setActionBarTitle(title);
+    }
+
+    private void setActionBarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 }
