@@ -50,6 +50,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initRecycleGrid() {
+        rvCategory.setLayoutManager(new LinearLayoutManager(this));
+        RowCharactersAdapter rowCharactersAdapter = new RowCharactersAdapter(this);
+        rowCharactersAdapter.setmData(mData);
+        rvCategory.setAdapter(rowCharactersAdapter);
+
+        ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                openDetailActivity(mData.get(position));
+            }
+        });
+    }
+
     private void openDetailActivity(Characters characters) {
         Class destinationClass = DetailActivity.class;
         Context context = MainActivity.this;
@@ -60,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         openDetailActivity.putExtra(DetailActivity.EXTRA_PHOTO, characters.getmFoto());
         startActivity(openDetailActivity);
     }
+
 
 
 }

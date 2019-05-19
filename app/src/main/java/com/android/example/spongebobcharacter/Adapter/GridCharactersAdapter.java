@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.example.spongebobcharacter.Model.Characters;
 import com.android.example.spongebobcharacter.R;
@@ -16,28 +15,18 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-public class RowCharactersAdapter
-        extends RecyclerView.Adapter<RowCharactersAdapter.CharactersViewHolder> {
+public class GridCharactersAdapter extends RecyclerView.Adapter<GridCharactersAdapter.CharactersViewHolder> {
 
     private Context mContext;
     private ArrayList<Characters> mData;
 
-    public RowCharactersAdapter(Context mContext) {
+    public GridCharactersAdapter(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public ArrayList<Characters> getmData() {
-        return mData;
-    }
-
-    public void setmData(ArrayList<Characters> mData) {
-        this.mData = mData;
     }
 
     @NonNull
     @Override
-    public RowCharactersAdapter.CharactersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup
-            , int viewTyep) {
+    public CharactersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Context context = viewGroup.getContext();
         int layoutResource = R.layout.item_row_characters;
         ViewGroup root = viewGroup;
@@ -48,34 +37,26 @@ public class RowCharactersAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RowCharactersAdapter.CharactersViewHolder charactersViewHolder
-            , int position) {
+    public void onBindViewHolder(@NonNull CharactersViewHolder charactersViewHolder, int position) {
         Characters characters = mData.get(position);
-        charactersViewHolder.tvCharaName.setText(characters.getmNama());
-        charactersViewHolder.tvCharaVoiceOver.setText("Pengisi suara: " + characters.getmPengisiSuara());
         Glide.with(mContext)
                 .load(characters.getmFoto())
                 .apply(new RequestOptions().override(60, 60))
-                .into(charactersViewHolder.imgCharaFoto);
+                .into(charactersViewHolder.imgCharaPhoto);
     }
 
     @Override
     public int getItemCount() {
-        return getmData().size();
+        return mData.size();
     }
 
     public class CharactersViewHolder extends RecyclerView.ViewHolder {
-
-        TextView tvCharaName, tvCharaVoiceOver;
-        ImageView imgCharaFoto;
+        ImageView imgCharaPhoto;
 
         public CharactersViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCharaName = itemView.findViewById(R.id.tv_chara_name);
-            tvCharaVoiceOver = itemView.findViewById(R.id.tv_chara_voice_over);
-            imgCharaFoto = itemView.findViewById(R.id.civ_chara_photo);
+
+            imgCharaPhoto = itemView.findViewById(R.id.civ_chara_photo);
         }
     }
-
-
 }
