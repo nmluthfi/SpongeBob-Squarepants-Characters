@@ -9,15 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.example.spongebobcharacter.Data.Characters;
+import com.android.example.spongebobcharacter.Model.Characters;
 import com.android.example.spongebobcharacter.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class RowCharactersAdapter
         extends RecyclerView.Adapter<RowCharactersAdapter.CharactersViewHolder> {
@@ -78,4 +75,6 @@ public class RowCharactersAdapter
             imgCharaFoto = itemView.findViewById(R.id.civ_chara_photo);
         }
     }
+
+
 }

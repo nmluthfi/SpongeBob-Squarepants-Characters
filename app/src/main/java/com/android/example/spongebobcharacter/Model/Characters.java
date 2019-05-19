@@ -1,4 +1,4 @@
-package com.android.example.spongebobcharacter.Data;
+package com.android.example.spongebobcharacter.Model;
 
 public class Characters {
 
