@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:scaleType="centerCrop"
         android:id="@+id/civ_chara_photo"
         android:layout_width="60dp"
         android:layout_height="60dp"

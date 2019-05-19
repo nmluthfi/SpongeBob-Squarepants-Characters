@@ -24,11 +24,19 @@ public class GridCharactersAdapter extends RecyclerView.Adapter<GridCharactersAd
         this.mContext = mContext;
     }
 
+    public ArrayList<Characters> getmData() {
+        return mData;
+    }
+
+    public void setmData(ArrayList<Characters> mData) {
+        this.mData = mData;
+    }
+
     @NonNull
     @Override
     public CharactersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Context context = viewGroup.getContext();
-        int layoutResource = R.layout.item_row_characters;
+        int layoutResource = R.layout.item_grid_characters;
         ViewGroup root = viewGroup;
         boolean attachToRoot = false;
 
@@ -41,7 +49,7 @@ public class GridCharactersAdapter extends RecyclerView.Adapter<GridCharactersAd
         Characters characters = mData.get(position);
         Glide.with(mContext)
                 .load(characters.getmFoto())
-                .apply(new RequestOptions().override(60, 60))
+                .apply(new RequestOptions().override(350, 350))
                 .into(charactersViewHolder.imgCharaPhoto);
     }
 
@@ -56,7 +64,7 @@ public class GridCharactersAdapter extends RecyclerView.Adapter<GridCharactersAd
         public CharactersViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgCharaPhoto = itemView.findViewById(R.id.civ_chara_photo);
+            imgCharaPhoto = itemView.findViewById(R.id.iv_chara_photo);
         }
     }
 }
